@@ -1,1 +1,24 @@
+name: Singapore GP 2027 Ticket Monitor
 
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check-tickets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run Ticket Monitor
+        env:
+          BARK_KEY: ${{ secrets.BARK_KEY || 'KB34tEmNct4QSTj24Nxs2E' }}
+        run: |
+          python3 cloud_monitor.py
